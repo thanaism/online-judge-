@@ -1,4 +1,12 @@
-# atcoder-python
+# Online Judge
+
+## 環境
+
+Rubyのバージョン管理：`rbenv`
+Python：`.venv`に`online-judge-tools`をインストール
+Python自体のバージョン管理は`pyenv`
+
+自動テスト：vccodeの`tasks.json`で管理
 
 自分用の勉強メモ
 

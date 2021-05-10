@@ -23,6 +23,8 @@ if [ $extension = "cpp" ]; then
 elif [ $extension = "rs" ]; then
     # export RUST_BACKTRACE=1
     cd ${dir_name} && cargo build --release --bin ${problem_name} && cd - && oj test -e 1e-7 -c "${dir_name}/../../target/release/${problem_name}" -d ${dir_name}/.test/${problem_name//-/_} 
+elif [ $extension = "rb" ]; then
+    oj test -e 1e-7 -c "ruby ${file_path}" -d ${dir_name}/.test/${problem_name//-/_} 
 else
     oj test -e 1e-7 -c "python ${file_path}" -d ${dir_name}/.test/${problem_name//-/_}
     # oj test -e 1e-6 -c "python ${file_path}" -d ${dir_name}/test/${problem_name//-/_}

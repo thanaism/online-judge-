@@ -1,0 +1,1 @@
+gets;p gets.split.map{_1.to_i%200}.tally.sum{_2*~-_2/2}

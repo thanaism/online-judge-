@@ -1,12 +1,12 @@
 fn main() {
     println!("Hello, world!");
     let n = 10;
-    let mut dsu1 = DisjointSetUnion{ p: vec![-1;n]};
+    let mut dsu1 = DisjointSetUnion::new(n);
     dsu1.join(0,1);
     dsu1.join(1,2);
     dsu1.join(3,2);
     dsu1.join(3,4);
-    let mut dsu2 = DisjointSetUnion{ p: vec![-1;n]};
+    let mut dsu2 = DisjointSetUnion::new(n);
     dsu2.join(0,1);
     dsu2.join(1,2);
     dsu2.join(2,3);
@@ -22,6 +22,9 @@ struct DisjointSetUnion {
 }
 
 impl DisjointSetUnion {
+    fn new(n:usize) -> DisjointSetUnion {
+        DisjointSetUnion{ p:vec![-1;n]}
+    }
     fn join(&mut self,x:usize,y:usize){
         let mut i = self.root(x);
         let mut j = self.root(y);

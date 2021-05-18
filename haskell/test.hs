@@ -1,3 +1,10 @@
+--myfunc::(a->b->b)->b->[a]->b
+--myfunc f acc [] = acc
+--myfunc f acc (x:xs) = f x (myfunc f acc xs)
+myfunc :: (a -> b -> a) -> a -> [b] -> a
+myfunc f acc [] = acc
+myfunc f acc (x:xs) = myfunc f (f acc x)  xs
+
 chain::Integer->[Integer]
 chain 1=[1]
 chain n

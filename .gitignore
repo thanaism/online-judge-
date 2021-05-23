@@ -1,6 +1,9 @@
 # for cpp
 *.out
 
+# for haskell
+/haskell/.output
+
 # atcoder test cases
 */test/
 test/

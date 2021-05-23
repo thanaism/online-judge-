@@ -25,7 +25,11 @@ elif [ $extension = "rs" ]; then
     cd ${dir_name} && cargo build --release --bin ${problem_name} && cd - && oj test -e 1e-7 -c "${dir_name}/../../target/release/${problem_name}" -d ${dir_name}/.test/${problem_name//-/_} 
 elif [ $extension = "rb" ]; then
     oj test -e 1e-7 -c "ruby ${file_path}" -d ${dir_name}/.test/${problem_name//-/_} 
-else
+elif [ $extension = "hs" ]; then
+    output_dir=${dir_name}/.output
+    ghc ${file_path} -o ${output_dir}/${problem_name} -outputdir ${output_dir} -no-keep-hi-files -no-keep-o-files 
+    oj test -e 1e-7 -c "${output_dir}/${problem_name}" -d ${dir_name}/.test/${problem_name//-/_}  
+elif [ $extension = "py" ]; then
     oj test -e 1e-7 -c "python ${file_path}" -d ${dir_name}/.test/${problem_name//-/_}
     # oj test -e 1e-6 -c "python ${file_path}" -d ${dir_name}/test/${problem_name//-/_}
 fi

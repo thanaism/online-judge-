@@ -13,7 +13,7 @@ fn main(){
             }
         }
     }
-    let mut ans = String::new();
+    let mut ans = Vec::new();
     let mut i = s.len();
     let mut j = t.len();
     while i>0 && j>0 {
@@ -25,5 +25,5 @@ fn main(){
             j-=1;
         }
     }
-    println!("{}",ans);
+    println!("{}",ans.iter().rev().collect::<String>());
 }

@@ -38,6 +38,16 @@
       "problemMatcher": []
     },
     {
+      "label": "submit no open",
+      "type": "shell",
+      "command": "${workspaceFolder}/cpsub_no-open.sh",
+      "args": [
+        "${file}",
+        "python3"
+      ],
+      "problemMatcher": []
+    },
+    {
       "label": "submit PyPy3",
       "type": "shell",
       "command": "${workspaceFolder}/cpsub.sh",

@@ -3,35 +3,35 @@ struct LazySegmentTree {
     nodes: Vec<isize>,
     lazy: Vec<isize>,
     id: isize,
-    fn1: fn(a:isize,b:isize)->isize,
-    fn2: fn(a:isize,b:isize)->isize
+    fn_get: fn(a:isize,b:isize)->isize,
+    fn_update: fn(a:isize,b:isize)->isize
 }
 
 #[allow(dead_code)]
 impl LazySegmentTree {
-    fn new(n:usize,v:Vec<isize>,id:isize,fn1:fn(a:isize,b:isize)->isize,fn2:fn(a:isize,b:isize)->isize) -> Self {
+    fn new(n:usize,v:Vec<isize>,id:isize,fn_get:fn(a:isize,b:isize)->isize,fn_update:fn(a:isize,b:isize)->isize) -> Self {
         let size = n.next_power_of_two();
         let mut nodes = vec![id;2*size-1];
-        let mut lazy = vec![id;2*size-1];
+        let lazy = vec![id;2*size-1];
         for i in 0..n { nodes[i+size-1]=v[i] }
         for i in (0..size-1).rev() {
-            nodes[i] = fn1(nodes[2*i+1],nodes[2*i+2])
+            nodes[i] = fn_get(nodes[2*i+1],nodes[2*i+2])
         }
         LazySegmentTree {
             size: size,
             nodes: nodes,
             lazy: lazy,
             id: id,
-            fn1: fn1,
-            fn2: fn2
+            fn_get: fn_get,
+            fn_update: fn_update
         }
     }
     fn eval(&mut self,k:usize,l:usize,r:usize) {
         if self.lazy[k]!=self.id {
-            self.nodes[k] += self.lazy[k];
+            self.nodes[k] = (self.fn_get)(self.nodes[k],self.lazy[k]);
             if r-l>1 {
-                self.lazy[2*k+1] += self.lazy[k] / 2;
-                self.lazy[2*k+2] += self.lazy[k] / 2;
+				self.lazy[2*k+1] = (self.fn_get)(self.lazy[2*k+1],self.lazy[k]);
+				self.lazy[2*k+2] = (self.fn_get)(self.lazy[2*k+2],self.lazy[k]);
             }
             self.lazy[k] = self.id;
         }
@@ -50,7 +50,7 @@ impl LazySegmentTree {
             self.eval(i, l, r);
             let a = self._get(ql,qr,l,(l+r)/2,2*i+1);
             let b = self._get(ql,qr,(l+r)/2,r,2*i+2);
-            (self.fn1)(a,b)
+            (self.fn_get)(a,b)
         }
     }
     fn update(&mut self,ql:usize,qr:usize,v:isize) {
@@ -65,7 +65,7 @@ impl LazySegmentTree {
         } else {
             self._update(ql,qr,l,(l+r)/2,2*i+1,v);
             self._update(ql,qr,(l+r)/2,r,2*i+2,v);
-            self.nodes[i] = (self.fn1)(self.nodes[2*i+1],self.nodes[2*i+2]);
+            self.nodes[i] = (self.fn_update)(self.nodes[2*i+1],self.nodes[2*i+2]);
         }
     }
 }
@@ -77,14 +77,13 @@ fn main() {
     }
     let size = w;
     let v = vec![0;w];
-    let fn1 = |a:isize,b:isize|a.max(b);
-    let mut segtree = LazySegmentTree::new(size, v, 0, fn1, fn1);
+    let fn_get = |a:isize,b:isize|a.max(b);
+    let fn_update = |a:isize,b:isize|a.max(b);
+    let mut segtree = LazySegmentTree::new(size, v, 0, fn_get, fn_update);
     for i in 0..n {
         let (l,r) = blocks[i];
         let val = segtree.get(l,r+1);
-        // println!("{}",val);
         segtree.update(l,r+1,val+1);
-        // println!("{:?}",segtree.nodes);
         println!("{}",segtree.get(l,l+1));
     }
 }

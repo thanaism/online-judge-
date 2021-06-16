@@ -1,12 +1,5 @@
 use proconio::{input,marker::Usize1};
 use std::collections::VecDeque;
-use lazy_static::lazy_static;
-
-lazy_static!{
-    
-
-}
-
 
 fn main(){
     input!{n:usize}

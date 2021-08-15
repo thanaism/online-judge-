@@ -2,4 +2,5 @@
   "python.pythonPath": ".venv/bin/python",
   "python.venvPath": ".venv",
   "editor.formatOnSave": false,
+  "editor.detectIndentation": false,
 }

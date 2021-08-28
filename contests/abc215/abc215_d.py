@@ -1,26 +1,21 @@
 n,m=map(int,input().split())
 a=[*map(int,input().split())]
 
-def prime_factorize(x,s):
-	for i in range(2,x+1):
-		if i*i>x:break
-		while x%i==0:
-			x//=i
-			s.add(i)
-		if x!=1: s.add(x)
-	return s
+l=110000
+b=[False]*l
+for i in a: b[i]=True
 
-s=set()
-for i in a: prime_factorize(i,s)
+d=[]
+for i in range(2,l):
+	flg=False
+	for j in range(i,l,i):
+		if b[j]: flg=True
+	if flg: d.append(i)
 
 ans=set(range(1,m+1))
-for i in s:
-	if i in ans:
-		j=i
-		while j<=m:
-			ans-={j}
-			j+=i
-
+for i in d:
+	for j in range(i,m+1,i):
+		ans-={j}
+		
 print(len(ans))
-for i in ans:
-	print(i)
+for i in ans: print(i)
